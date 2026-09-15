@@ -1,1 +1,582 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="MY WORKOUT">
+
+<title>MY WORKOUT</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #0d0f14;
+  color: white;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.container {
+  max-width: 650px;
+  margin: auto;
+  padding: 18px;
+  padding-bottom: 80px;
+}
+
+h1 {
+  margin: 5px 0;
+  font-size: 30px;
+}
+
+.subtitle {
+  color: #999;
+  margin-bottom: 25px;
+}
+
+.day-tabs {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  margin-bottom: 20px;
+}
+
+.day-btn {
+  flex: 0 0 auto;
+  border: none;
+  border-radius: 12px;
+  padding: 10px 14px;
+  background: #1b1e26;
+  color: #aaa;
+  font-weight: 700;
+}
+
+.day-btn.active {
+  background: #3a86ff;
+  color: white;
+}
+
+.today-card {
+  background: linear-gradient(135deg, #17233b, #11151f);
+  border: 1px solid #263b63;
+  padding: 18px;
+  border-radius: 18px;
+  margin-bottom: 18px;
+}
+
+.today-card .small {
+  color: #9aa7bd;
+  font-size: 13px;
+}
+
+.today-title {
+  font-size: 28px;
+  font-weight: 800;
+  margin: 5px 0;
+}
+
+.exercise {
+  background: #171a21;
+  border: 1px solid #292d37;
+  border-radius: 16px;
+  padding: 15px;
+  margin-bottom: 14px;
+}
+
+.exercise-title {
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.exercise-info {
+  font-size: 13px;
+  color: #8f98a8;
+  margin: 4px 0 12px;
+}
+
+.previous {
+  background: #111318;
+  padding: 9px 11px;
+  border-radius: 10px;
+  margin-bottom: 12px;
+  color: #aeb6c5;
+  font-size: 13px;
+}
+
+.previous strong {
+  color: #70a7ff;
+}
+
+.set-row {
+  display: grid;
+  grid-template-columns: 40px 1fr 1fr 1fr;
+  gap: 7px;
+  margin-bottom: 8px;
+  align-items: center;
+}
+
+.set-num {
+  color: #888;
+  font-size: 13px;
+}
+
+input {
+  width: 100%;
+  min-width: 0;
+  padding: 10px 5px;
+  text-align: center;
+  border-radius: 9px;
+  border: 1px solid #333845;
+  background: #0d0f14;
+  color: white;
+  font-size: 16px;
+}
+
+.headers {
+  display: grid;
+  grid-template-columns: 40px 1fr 1fr 1fr;
+  gap: 7px;
+  color: #777;
+  font-size: 11px;
+  text-align: center;
+  margin-bottom: 5px;
+}
+
+button.main {
+  width: 100%;
+  border: none;
+  border-radius: 14px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 17px;
+  font-weight: 800;
+}
+
+.save-btn {
+  background: #272c36;
+  color: white;
+}
+
+.complete-btn {
+  background: #3a86ff;
+  color: white;
+}
+
+.secondary-btn {
+  background: #191c23;
+  color: #aaa;
+}
+
+.status {
+  text-align: center;
+  color: #67d391;
+  min-height: 20px;
+  margin: 15px 0;
+  font-size: 14px;
+}
+
+.bottom-info {
+  color: #666;
+  text-align: center;
+  font-size: 12px;
+  margin-top: 30px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <h1>MY WORKOUT</h1>
+  <div class="subtitle">Rolling 5 Split · 근비대 기록</div>
+
+  <div class="day-tabs" id="tabs"></div>
+
+  <div class="today-card">
+    <div class="small">CURRENT WORKOUT</div>
+    <div class="today-title" id="dayTitle"></div>
+    <div id="daySub"></div>
+  </div>
+
+  <div id="exerciseList"></div>
+
+  <button class="main save-btn" onclick="saveWorkout(false)">
+    현재 기록 저장
+  </button>
+
+  <button class="main complete-btn" onclick="saveWorkout(true)">
+    운동 완료 → 다음 DAY
+  </button>
+
+  <button class="main secondary-btn" onclick="exportData()">
+    기록 백업
+  </button>
+
+  <div class="status" id="status"></div>
+
+  <div class="bottom-info">
+    기록은 현재 아이폰 Safari에 저장됩니다.
+  </div>
+
+</div>
+
+<script>
+
+const routine = [
+
+{
+  name: "PUSH",
+  sub: "가슴 + 어깨 + 삼두",
+  exercises: [
+    ["스미스 인클라인 프레스", 3, "6~10"],
+    ["체스트프레스 머신", 3, "8~12"],
+    ["펙덱 플라이", 2, "10~15"],
+    ["숄더프레스 머신", 3, "6~10"],
+    ["케이블 사이드 레터럴", 3, "12~20"],
+    ["오버헤드 트라이셉스 익스텐션", 2, "10~15"],
+    ["케이블 푸시다운", 2, "10~15"]
+  ]
+},
+
+{
+  name: "PULL",
+  sub: "등 + 후면 + 이두",
+  exercises: [
+    ["어시스트 풀업", 3, "6~10"],
+    ["한팔 케이블 하이로우", 3, "8~12"],
+    ["케이블 로우", 3, "8~12"],
+    ["한팔 케이블 광배 로우", 2, "10~15"],
+    ["스트레이트암 풀다운", 2, "10~15"],
+    ["케이블 Y-레이즈", 2, "12~20"],
+    ["리어델트 머신", 3, "12~20"],
+    ["이두 머신", 3, "8~12"],
+    ["케이블 해머컬", 2, "10~15"]
+  ]
+},
+
+{
+  name: "LEGS A",
+  sub: "대퇴사두 우선",
+  exercises: [
+    ["V스쿼트", 4, "6~10"],
+    ["레그프레스", 3, "10~15"],
+    ["레그익스텐션", 3, "10~15"],
+    ["라잉 레그컬", 3, "8~15"],
+    ["아웃타이", 3, "12~20"],
+    ["카프레이즈", 3, "8~15"]
+  ]
+},
+
+{
+  name: "UPPER",
+  sub: "상체 2차 자극",
+  exercises: [
+    ["체스트프레스 / 스미스 인클라인", 3, "8~12"],
+    ["펙덱 플라이", 2, "12~15"],
+    ["어시스트 풀업 / 케이블 풀다운", 3, "8~12"],
+    ["한팔 광배 케이블로우", 3, "10~15"],
+    ["케이블 사이드 레터럴", 3, "12~20"],
+    ["리어델트 머신", 2, "15~25"],
+    ["케이블 컬", 2, "10~15"],
+    ["케이블 푸시다운", 2, "10~15"]
+  ]
+},
+
+{
+  name: "LEGS B",
+  sub: "햄스트링 + 둔근 우선",
+  exercises: [
+    ["스미스 RDL", 4, "6~10"],
+    ["힙쓰러스트", 3, "8~12"],
+    ["라잉 레그컬", 3, "10~15"],
+    ["레그프레스 (발 위)", 3, "10~15"],
+    ["V스쿼트 가볍게", 2, "10~15"],
+    ["아웃타이", 2, "15~25"],
+    ["카프레이즈", 3, "10~15"]
+  ]
+}
+
+];
+
+let currentDay = Number(localStorage.getItem("currentDay") || 0);
+
+function getHistory() {
+  return JSON.parse(localStorage.getItem("workoutHistory") || "[]");
+}
+
+function renderTabs() {
+
+  const tabs = document.getElementById("tabs");
+
+  tabs.innerHTML = "";
+
+  routine.forEach((day, index) => {
+
+    const btn = document.createElement("button");
+
+    btn.className =
+      "day-btn" + (index === currentDay ? " active" : "");
+
+    btn.innerText = day.name;
+
+    btn.onclick = () => {
+      currentDay = index;
+      localStorage.setItem("currentDay", currentDay);
+      render();
+    };
+
+    tabs.appendChild(btn);
+
+  });
+
+}
+
+function findLastExercise(dayName, exerciseName) {
+
+  const history = getHistory();
+
+  for (let i = history.length - 1; i >= 0; i--) {
+
+    const session = history[i];
+
+    if (session.day !== dayName) continue;
+
+    const ex = session.exercises.find(
+      e => e.name === exerciseName
+    );
+
+    if (ex) return ex;
+
+  }
+
+  return null;
+}
+
+function render() {
+
+  renderTabs();
+
+  const day = routine[currentDay];
+
+  document.getElementById("dayTitle").innerText = day.name;
+  document.getElementById("daySub").innerText = day.sub;
+
+  const list = document.getElementById("exerciseList");
+
+  list.innerHTML = "";
+
+  day.exercises.forEach((exercise, exIndex) => {
+
+    const [name, sets, reps] = exercise;
+
+    const previous = findLastExercise(day.name, name);
+
+    const box = document.createElement("div");
+
+    box.className = "exercise";
+
+    let previousHTML =
+      "<div class='previous'>지난 기록 없음</div>";
+
+    if (previous) {
+
+      const text = previous.sets
+        .map(
+          (s, i) =>
+            `${i + 1}세트 ${s.weight || "-"}kg × ${s.reps || "-"}회 · RIR ${s.rir || "-"}`
+        )
+        .join("<br>");
+
+      previousHTML =
+        `<div class="previous"><strong>지난 기록</strong><br>${text}</div>`;
+
+    }
+
+    let rows = "";
+
+    for (let s = 0; s < sets; s++) {
+
+      rows += `
+      <div class="set-row">
+
+        <div class="set-num">${s + 1}</div>
+
+        <input
+          type="number"
+          step="0.5"
+          inputmode="decimal"
+          placeholder="kg"
+          id="w-${exIndex}-${s}"
+        >
+
+        <input
+          type="number"
+          inputmode="numeric"
+          placeholder="회"
+          id="r-${exIndex}-${s}"
+        >
+
+        <input
+          type="number"
+          inputmode="numeric"
+          placeholder="RIR"
+          id="rir-${exIndex}-${s}"
+        >
+
+      </div>`;
+    }
+
+    box.innerHTML = `
+
+      <div class="exercise-title">${name}</div>
+
+      <div class="exercise-info">
+        ${sets}세트 · ${reps}회
+      </div>
+
+      ${previousHTML}
+
+      <div class="headers">
+        <div></div>
+        <div>KG</div>
+        <div>REPS</div>
+        <div>RIR</div>
+      </div>
+
+      ${rows}
+
+    `;
+
+    list.appendChild(box);
+
+  });
+
+}
+
+function collectWorkout() {
+
+  const day = routine[currentDay];
+
+  const exercises = [];
+
+  day.exercises.forEach((exercise, exIndex) => {
+
+    const [name, sets] = exercise;
+
+    const setData = [];
+
+    for (let s = 0; s < sets; s++) {
+
+      setData.push({
+
+        weight:
+          document.getElementById(`w-${exIndex}-${s}`).value,
+
+        reps:
+          document.getElementById(`r-${exIndex}-${s}`).value,
+
+        rir:
+          document.getElementById(`rir-${exIndex}-${s}`).value
+
+      });
+
+    }
+
+    exercises.push({
+      name: name,
+      sets: setData
+    });
+
+  });
+
+  return {
+
+    date: new Date().toLocaleString("ko-KR"),
+
+    day: day.name,
+
+    exercises: exercises
+
+  };
+
+}
+
+function saveWorkout(moveNext) {
+
+  const session = collectWorkout();
+
+  let history = getHistory();
+
+  history.push(session);
+
+  localStorage.setItem(
+    "workoutHistory",
+    JSON.stringify(history)
+  );
+
+  document.getElementById("status").innerText =
+    "✓ 기록 저장 완료";
+
+  if (moveNext) {
+
+    currentDay =
+      (currentDay + 1) % routine.length;
+
+    localStorage.setItem(
+      "currentDay",
+      currentDay
+    );
+
+    setTimeout(() => {
+      render();
+      window.scrollTo(0, 0);
+    }, 500);
+
+  }
+
+}
+
+function exportData() {
+
+  const history = getHistory();
+
+  const data =
+    JSON.stringify(history, null, 2);
+
+  if (navigator.share) {
+
+    const blob =
+      new Blob([data], {type:"application/json"});
+
+    const file =
+      new File(
+        [blob],
+        "workout-backup.json",
+        {type:"application/json"}
+      );
+
+    navigator.share({
+      title: "Workout Backup",
+      files: [file]
+    });
+
+  } else {
+
+    alert(data);
+
+  }
+
+}
+
+render();
+
+</script>
+
+</body>
+</html>
