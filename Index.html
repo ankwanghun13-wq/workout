@@ -1,0 +1,3375 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="MY WORKOUT">
+<meta name="theme-color" content="#0d0f14">
+
+<title>MY WORKOUT</title>
+
+<style>
+:root{
+  --bg:#0d0f14;
+  --card:#171a21;
+  --card2:#10131a;
+  --line:#2a2f39;
+  --text:#ffffff;
+  --muted:#9099a8;
+  --blue:#3a86ff;
+  --blue2:#70a7ff;
+  --green:#66d28d;
+  --gold:#f2cd58;
+}
+
+*{
+  box-sizing:border-box;
+  min-width:0;
+}
+
+html,
+body{
+  width:100%;
+  max-width:100%;
+  overflow-x:hidden;
+}
+
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+}
+
+button,
+input{
+  font-family:inherit;
+}
+
+.container{
+  width:100%;
+  max-width:720px;
+  margin:auto;
+  padding:
+    20px
+    12px
+    calc(110px + env(safe-area-inset-bottom));
+}
+
+
+/* =========================
+   HEADER
+========================= */
+
+h1{
+  margin:5px 0 0;
+  font-size:34px;
+  font-weight:950;
+  letter-spacing:-1px;
+}
+
+.subtitle{
+  color:#999;
+  font-size:16px;
+  margin:
+    8px
+    0
+    22px;
+  line-height:1.4;
+}
+
+
+/* =========================
+   TOP BUTTONS
+========================= */
+
+.top-actions{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-bottom:20px;
+}
+
+.small-btn{
+  border:1px solid var(--line);
+  background:#171a21;
+  color:#dde3ef;
+
+  padding:
+    10px
+    14px;
+
+  border-radius:12px;
+
+  font-size:14px;
+  font-weight:850;
+
+  cursor:pointer;
+}
+
+
+/* =========================
+   DAY TABS
+========================= */
+
+.day-tabs{
+  display:flex;
+  gap:8px;
+
+  overflow-x:auto;
+
+  margin:
+    0
+    -2px
+    20px;
+
+  padding:
+    0
+    2px
+    5px;
+
+  scrollbar-width:none;
+}
+
+.day-tabs::-webkit-scrollbar{
+  display:none;
+}
+
+.day-btn{
+  flex:0 0 auto;
+
+  border:none;
+
+  background:#1b1e26;
+  color:#aaa;
+
+  padding:
+    12px
+    16px;
+
+  border-radius:14px;
+
+  font-size:15px;
+  font-weight:900;
+
+  white-space:nowrap;
+
+  cursor:pointer;
+}
+
+.day-btn.active{
+  background:var(--blue);
+  color:white;
+}
+
+
+/* =========================
+   CURRENT DAY CARD
+========================= */
+
+.today-card{
+  width:100%;
+
+  background:
+    linear-gradient(
+      135deg,
+      #17233b,
+      #11151f
+    );
+
+  border:
+    1px solid
+    #28508a;
+
+  border-radius:21px;
+
+  padding:19px;
+
+  margin-bottom:20px;
+}
+
+.today-small{
+  color:#99a7bf;
+  font-size:14px;
+}
+
+.today-title{
+  margin:
+    6px
+    0
+    3px;
+
+  font-size:30px;
+  font-weight:950;
+  letter-spacing:-0.5px;
+}
+
+.today-sub{
+  font-size:18px;
+}
+
+.today-note{
+  color:#9ca8bb;
+
+  font-size:14px;
+
+  line-height:1.55;
+
+  margin-top:8px;
+}
+
+
+/* =========================
+   EXERCISE CARD
+========================= */
+
+.exercise{
+  width:100%;
+
+  background:var(--card);
+
+  border:
+    1px solid
+    var(--line);
+
+  border-radius:18px;
+
+  padding:15px;
+
+  margin-bottom:15px;
+}
+
+.exercise.main{
+  border-color:#3478cc;
+}
+
+.exercise.pre{
+  border-color:#746119;
+}
+
+.exercise-head{
+  width:100%;
+
+  display:flex;
+  flex-wrap:wrap;
+
+  align-items:flex-start;
+
+  gap:10px;
+}
+
+.exercise-title-area{
+  flex:
+    1
+    1
+    210px;
+
+  min-width:0;
+}
+
+.exercise-name{
+  font-size:19px;
+  font-weight:950;
+
+  line-height:1.35;
+
+  word-break:keep-all;
+  overflow-wrap:anywhere;
+}
+
+.exercise-meta{
+  color:var(--muted);
+
+  font-size:13px;
+
+  margin-top:5px;
+}
+
+
+/* =========================
+   TAG
+========================= */
+
+.tag{
+  display:inline-block;
+
+  margin-left:6px;
+
+  padding:
+    4px
+    8px;
+
+  border-radius:999px;
+
+  font-size:10px;
+  font-weight:950;
+
+  vertical-align:middle;
+}
+
+.tag.main{
+  background:#163b69;
+  color:#8bbcff;
+}
+
+.tag.pre{
+  background:#4b3d09;
+  color:#f2cf55;
+}
+
+
+/* =========================
+   CARD BUTTONS
+========================= */
+
+.head-buttons{
+  flex:
+    0
+    1
+    auto;
+
+  display:flex;
+  gap:6px;
+
+  flex-wrap:wrap;
+
+  justify-content:flex-end;
+}
+
+.mini-btn{
+  border:
+    1px solid
+    #394154;
+
+  background:#10131a;
+
+  color:#8fb7ff;
+
+  border-radius:9px;
+
+  padding:
+    7px
+    9px;
+
+  font-size:12px;
+  font-weight:850;
+
+  white-space:nowrap;
+
+  cursor:pointer;
+}
+
+.edit-btn{
+  color:#f2cf55;
+  border-color:#5a5130;
+}
+
+
+/* =========================
+   PREVIOUS
+========================= */
+
+.previous{
+  width:100%;
+
+  background:var(--card2);
+
+  border-radius:11px;
+
+  padding:10px;
+
+  margin:
+    11px
+    0;
+
+  color:#abb4c4;
+
+  font-size:13px;
+
+  line-height:1.6;
+
+  overflow-wrap:anywhere;
+}
+
+.previous strong{
+  color:var(--blue2);
+}
+
+.copy-btn{
+  width:100%;
+
+  background:#12151b;
+
+  color:#cbd2df;
+
+  border:
+    1px solid
+    #343a47;
+
+  border-radius:9px;
+
+  padding:9px;
+
+  margin-bottom:11px;
+
+  font-size:13px;
+  font-weight:850;
+
+  cursor:pointer;
+}
+
+
+/* =========================
+   SET TABLE
+========================= */
+
+.headers,
+.set-row{
+  width:100%;
+
+  display:grid;
+
+  grid-template-columns:
+    32px
+    minmax(0,1fr)
+    minmax(0,1fr)
+    minmax(0,1fr);
+
+  gap:6px;
+
+  align-items:center;
+}
+
+.headers{
+  color:#777;
+
+  font-size:11px;
+
+  text-align:center;
+
+  margin-bottom:6px;
+}
+
+.set-row{
+  margin-bottom:8px;
+}
+
+.set-number{
+  color:#888;
+  font-size:13px;
+}
+
+input{
+  width:100%;
+  max-width:100%;
+
+  border:
+    1px solid
+    #333845;
+
+  border-radius:9px;
+
+  background:#0d0f14;
+
+  color:white;
+
+  padding:
+    10px
+    4px;
+
+  text-align:center;
+
+  font-size:16px;
+}
+
+
+/* =========================
+   BOTTOM BUTTONS
+========================= */
+
+.main-btn{
+  width:100%;
+
+  border:none;
+
+  border-radius:14px;
+
+  padding:16px;
+
+  margin-top:10px;
+
+  font-size:17px;
+  font-weight:950;
+
+  cursor:pointer;
+}
+
+.save-btn{
+  background:#282d36;
+  color:white;
+}
+
+.complete-btn{
+  background:var(--blue);
+  color:white;
+}
+
+.status{
+  min-height:22px;
+
+  color:var(--green);
+
+  text-align:center;
+
+  font-size:14px;
+
+  margin:
+    14px
+    0;
+}
+
+.bottom-info{
+  color:#666;
+
+  text-align:center;
+
+  font-size:12px;
+
+  line-height:1.6;
+
+  margin-top:27px;
+}
+
+
+/* =========================
+   MODAL
+========================= */
+
+.modal{
+  display:none;
+
+  position:fixed;
+
+  inset:0;
+
+  z-index:1000;
+
+  background:
+    rgba(
+      0,
+      0,
+      0,
+      .77
+    );
+
+  padding:
+    10px;
+
+  overflow-y:auto;
+  overflow-x:hidden;
+}
+
+.modal.show{
+  display:block;
+}
+
+.modal-card{
+  width:100%;
+
+  max-width:680px;
+
+  margin:
+    18px
+    auto;
+
+  background:#14171d;
+
+  border:
+    1px solid
+    #2d323d;
+
+  border-radius:18px;
+
+  padding:15px;
+}
+
+.modal-head{
+  display:flex;
+
+  align-items:center;
+  justify-content:space-between;
+
+  gap:10px;
+}
+
+.modal-title{
+  font-size:20px;
+  font-weight:950;
+
+  overflow-wrap:anywhere;
+}
+
+.close-btn{
+  border:none;
+
+  background:#282d36;
+
+  color:white;
+
+  border-radius:9px;
+
+  padding:
+    9px
+    11px;
+
+  font-weight:850;
+
+  flex:0 0 auto;
+}
+
+
+/* =========================
+   HISTORY
+========================= */
+
+.history-row{
+  background:#0f1116;
+
+  border:
+    1px solid
+    #272c35;
+
+  border-radius:11px;
+
+  padding:11px;
+
+  margin:
+    10px
+    0;
+}
+
+.history-date{
+  color:#8f98a8;
+
+  font-size:12px;
+
+  margin-bottom:5px;
+}
+
+.history-day{
+  font-size:17px;
+
+  font-weight:950;
+
+  margin-bottom:8px;
+}
+
+.history-sets{
+  color:#d8deea;
+
+  font-size:13px;
+
+  line-height:1.65;
+
+  overflow-wrap:anywhere;
+}
+
+
+/* =========================
+   EDIT
+========================= */
+
+.edit-grid{
+  display:grid;
+
+  gap:14px;
+
+  margin-top:17px;
+}
+
+.edit-label{
+  color:#929bab;
+
+  font-size:12px;
+  font-weight:850;
+
+  margin-bottom:6px;
+}
+
+.edit-input{
+  text-align:left;
+
+  padding:12px;
+
+  font-size:16px;
+}
+
+.edit-actions{
+  display:flex;
+
+  gap:8px;
+
+  flex-wrap:wrap;
+
+  margin-top:15px;
+}
+
+.edit-actions button{
+  flex:
+    1
+    1
+    130px;
+
+  border:none;
+
+  border-radius:10px;
+
+  padding:12px;
+
+  font-size:14px;
+  font-weight:900;
+}
+
+.reset-btn{
+  background:#2b3039;
+  color:#ddd;
+}
+
+.save-edit-btn{
+  background:var(--blue);
+  color:white;
+}
+
+
+/* =========================
+   SMALL IPHONE
+========================= */
+
+@media(max-width:390px){
+
+  .container{
+    padding-left:9px;
+    padding-right:9px;
+  }
+
+  h1{
+    font-size:32px;
+  }
+
+  .exercise{
+    padding:13px;
+  }
+
+  .exercise-name{
+    font-size:18px;
+  }
+
+  .today-title{
+    font-size:28px;
+  }
+
+  .headers,
+  .set-row{
+    grid-template-columns:
+      28px
+      minmax(0,1fr)
+      minmax(0,1fr)
+      minmax(0,1fr);
+
+    gap:4px;
+  }
+
+  input{
+    font-size:16px;
+
+    padding:
+      10px
+      2px;
+  }
+
+  .mini-btn{
+    font-size:11px;
+  }
+
+}
+</style>
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+  <h1>MY WORKOUT</h1>
+
+  <div class="subtitle">
+    Rolling 5 Split · BACK → CHEST → LEGS → SHOULDERS → ARMS
+  </div>
+
+
+  <div class="top-actions">
+
+    <button
+      class="small-btn"
+      onclick="openAllHistory()">
+      전체 기록
+    </button>
+
+    <button
+      class="small-btn"
+      onclick="exportData()">
+      백업
+    </button>
+
+    <label
+      class="small-btn"
+      style="cursor:pointer;">
+
+      복원
+
+      <input
+        id="restoreFile"
+        type="file"
+        accept=".json,application/json"
+        hidden
+        onchange="restoreData(event)"
+      >
+
+    </label>
+
+  </div>
+
+
+  <div
+    class="day-tabs"
+    id="tabs">
+  </div>
+
+
+  <div class="today-card">
+
+    <div class="today-small">
+      CURRENT WORKOUT
+    </div>
+
+    <div
+      class="today-title"
+      id="dayTitle">
+    </div>
+
+    <div
+      class="today-sub"
+      id="daySub">
+    </div>
+
+    <div
+      class="today-note"
+      id="dayNote">
+    </div>
+
+  </div>
+
+
+  <div id="exerciseList"></div>
+
+
+  <button
+    class="main-btn save-btn"
+    onclick="saveDraft()">
+    현재 기록 임시저장
+  </button>
+
+
+  <button
+    class="main-btn complete-btn"
+    onclick="completeWorkout()">
+    운동 완료 → 다음 DAY
+  </button>
+
+
+  <div
+    class="status"
+    id="status">
+  </div>
+
+
+  <div class="bottom-info">
+
+    각 운동의 <b>편집</b> 버튼에서<br>
+
+    운동 이름과 세트 수를 직접 변경할 수 있습니다.
+
+  </div>
+
+</div>
+
+
+<!-- =========================
+     HISTORY MODAL
+========================= -->
+
+<div
+  class="modal"
+  id="historyModal"
+  onclick="historyBackground(event)">
+
+  <div class="modal-card">
+
+    <div class="modal-head">
+
+      <div
+        class="modal-title"
+        id="historyTitle">
+        기록
+      </div>
+
+      <button
+        class="close-btn"
+        onclick="closeHistory()">
+        닫기
+      </button>
+
+    </div>
+
+    <div id="historyContent"></div>
+
+  </div>
+
+</div>
+
+
+<!-- =========================
+     EDIT MODAL
+========================= -->
+
+<div
+  class="modal"
+  id="editModal"
+  onclick="editBackground(event)">
+
+  <div class="modal-card">
+
+    <div class="modal-head">
+
+      <div class="modal-title">
+        운동 편집
+      </div>
+
+      <button
+        class="close-btn"
+        onclick="closeEdit()">
+        닫기
+      </button>
+
+    </div>
+
+
+    <div class="edit-grid">
+
+      <div>
+
+        <div class="edit-label">
+          운동 이름
+        </div>
+
+        <input
+          id="editName"
+          class="edit-input"
+          type="text"
+          autocomplete="off">
+
+      </div>
+
+
+      <div>
+
+        <div class="edit-label">
+          세트 수 (1~20)
+        </div>
+
+        <input
+          id="editSets"
+          class="edit-input"
+          type="number"
+          min="1"
+          max="20"
+          step="1"
+          inputmode="numeric">
+
+      </div>
+
+    </div>
+
+
+    <div class="edit-actions">
+
+      <button
+        class="reset-btn"
+        onclick="resetExercise()">
+        기본값 복원
+      </button>
+
+      <button
+        class="save-edit-btn"
+        onclick="saveExerciseEdit()">
+        저장
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<script>
+
+/* =========================
+   ROUTINE
+========================= */
+
+const routine = [
+
+  {
+    name:"BACK",
+
+    sub:"등",
+
+    note:
+      "암풀다운 선행 · 광배 + 상부등 + 등 중앙 두께",
+
+    exercises:[
+
+      [
+        "암풀다운",
+        2,
+        "12~20",
+        "PRE"
+      ],
+
+      [
+        "어시스트 풀업",
+        5,
+        "6~10",
+        "MAIN"
+      ],
+
+      [
+        "Hammer Front High Row",
+        5,
+        "8~12",
+        "MAIN"
+      ],
+
+      [
+        "Life Fitness Strength Row (윗손잡이)",
+        4,
+        "8~12",
+        ""
+      ],
+
+      [
+        "Nautilus Row",
+        4,
+        "8~12",
+        ""
+      ],
+
+      [
+        "Hammer Iso-Lateral Row",
+        3,
+        "8~12",
+        ""
+      ],
+
+      [
+        "한팔 케이블 광배로우",
+        3,
+        "10~15",
+        ""
+      ],
+
+      [
+        "Nautilus Lat Pulldown",
+        3,
+        "8~12",
+        ""
+      ]
+
+    ]
+
+  },
+
+
+  {
+    name:"CHEST",
+
+    sub:"가슴",
+
+    note:
+      "펙덱 선행 · 윗가슴 + 중앙 두께 우선",
+
+    exercises:[
+
+      [
+        "Nautilus Pec Deck Fly",
+        3,
+        "12~20",
+        "PRE"
+      ],
+
+      [
+        "Hammer Incline Press",
+        5,
+        "6~10",
+        "MAIN"
+      ],
+
+      [
+        "Nautilus Chest Press",
+        5,
+        "8~12",
+        "MAIN"
+      ],
+
+      [
+        "플레이트로드 Chest Press",
+        4,
+        "8~12",
+        ""
+      ],
+
+      [
+        "Hammer Dip Machine",
+        4,
+        "8~12",
+        ""
+      ],
+
+      [
+        "케이블 플라이",
+        3,
+        "10~15",
+        ""
+      ],
+
+      [
+        "케이블 풀오버",
+        3,
+        "10~15",
+        ""
+      ]
+
+    ]
+
+  },
+
+
+  {
+    name:"LEGS",
+
+    sub:"하체",
+
+    note:
+      "Hack Squat + Leg Press 메인 · 대퇴사두 우선",
+
+    exercises:[
+
+      [
+        "이너타이",
+        2,
+        "12~20",
+        "PRE"
+      ],
+
+      [
+        "아웃타이",
+        2,
+        "12~20",
+        "PRE"
+      ],
+
+      [
+        "Hack Squat",
+        5,
+        "6~10",
+        "MAIN"
+      ],
+
+      [
+        "Leg Press",
+        5,
+        "10~15",
+        "MAIN"
+      ],
+
+      [
+        "Leg Extension",
+        4,
+        "10~15",
+        ""
+      ],
+
+      [
+        "Leg Curl",
+        4,
+        "8~15",
+        ""
+      ],
+
+      [
+        "Hip Thrust",
+        4,
+        "8~12",
+        ""
+      ],
+
+      [
+        "Calf Raise",
+        4,
+        "8~15",
+        ""
+      ],
+
+      [
+        "Back Extension",
+        3,
+        "10~15",
+        ""
+      ]
+
+    ]
+
+  },
+
+
+  {
+    name:"SHOULDERS",
+
+    sub:"어깨",
+
+    note:
+      "오버헤드 슈러그 예열 → 프레스 → 측면 → 후면 → 사레레 머신",
+
+    exercises:[
+
+      [
+        "Overhead Shrug",
+        2,
+        "12~20",
+        "PRE"
+      ],
+
+      [
+        "Nautilus Shoulder Press",
+        4,
+        "6~10",
+        ""
+      ],
+
+      [
+        "덤벨 Side Lateral Raise",
+        5,
+        "10~20",
+        "MAIN"
+      ],
+
+      [
+        "덤벨 Bent-over Lateral Raise",
+        4,
+        "12~20",
+        ""
+      ],
+
+      [
+        "External Rotation + 바깥쪽 Row (후면)",
+        3,
+        "12~20",
+        ""
+      ],
+
+      [
+        "Cable Cross Rear Delt Pull",
+        3,
+        "12~20",
+        ""
+      ],
+
+      [
+        "Nautilus Deltoid Raise",
+        5,
+        "10~20",
+        "MAIN"
+      ]
+
+    ]
+
+  },
+
+
+  {
+    name:"ARMS",
+
+    sub:"팔",
+
+    note:
+      "이두 + 삼두",
+
+    exercises:[
+
+      [
+        "Nautilus Biceps Curl (한팔)",
+        5,
+        "8~12",
+        "MAIN"
+      ],
+
+      [
+        "Bayesian Curl",
+        4,
+        "10~15",
+        ""
+      ],
+
+      [
+        "Rope Hammer Curl",
+        4,
+        "10~15",
+        ""
+      ],
+
+      [
+        "Cable Pushdown",
+        5,
+        "8~12",
+        "MAIN"
+      ],
+
+      [
+        "OH Cable Triceps Extension",
+        4,
+        "10~15",
+        ""
+      ],
+
+      [
+        "Cross-body Triceps Extension",
+        4,
+        "10~15",
+        ""
+      ],
+
+      [
+        "Lying Triceps Extension",
+        3,
+        "8~12",
+        ""
+      ]
+
+    ]
+
+  }
+
+];
+
+
+/* =========================
+   STORAGE
+========================= */
+
+const HISTORY_KEY =
+  "workoutHistory5";
+
+const CURRENT_DAY_KEY =
+  "currentDay5";
+
+const CONFIG_KEY =
+  "routineConfig5";
+
+const DRAFT_PREFIX =
+  "draft5_";
+
+
+let currentDay =
+  Number(
+    localStorage.getItem(
+      CURRENT_DAY_KEY
+    )
+    || 0
+  );
+
+
+if(
+  !Number.isInteger(currentDay)
+  ||
+  currentDay < 0
+  ||
+  currentDay >= routine.length
+){
+  currentDay = 0;
+}
+
+
+let editing = null;
+
+
+/* =========================
+   HISTORY
+========================= */
+
+function getHistory(){
+
+  try{
+
+    const data =
+      JSON.parse(
+        localStorage.getItem(
+          HISTORY_KEY
+        )
+        ||
+        "[]"
+      );
+
+    return Array.isArray(data)
+      ? data
+      : [];
+
+  }
+  catch{
+
+    return [];
+
+  }
+
+}
+
+
+function setHistory(data){
+
+  localStorage.setItem(
+    HISTORY_KEY,
+    JSON.stringify(data)
+  );
+
+}
+
+
+/* =========================
+   CONFIG
+========================= */
+
+function getConfig(){
+
+  try{
+
+    const data =
+      JSON.parse(
+        localStorage.getItem(
+          CONFIG_KEY
+        )
+        ||
+        "{}"
+      );
+
+    return (
+      data
+      &&
+      typeof data === "object"
+    )
+      ? data
+      : {};
+
+  }
+  catch{
+
+    return {};
+
+  }
+
+}
+
+
+function setConfig(data){
+
+  localStorage.setItem(
+    CONFIG_KEY,
+    JSON.stringify(data)
+  );
+
+}
+
+
+/* =========================
+   EXERCISE ID
+========================= */
+
+function exerciseId(
+  dayIndex,
+  exerciseIndex
+){
+
+  return (
+    "d" +
+    dayIndex +
+    "e" +
+    exerciseIndex
+  );
+
+}
+
+
+/* =========================
+   EXERCISE VIEW
+========================= */
+
+function getExercise(
+  dayIndex,
+  exerciseIndex
+){
+
+  const base =
+    routine[
+      dayIndex
+    ].exercises[
+      exerciseIndex
+    ];
+
+
+  const id =
+    exerciseId(
+      dayIndex,
+      exerciseIndex
+    );
+
+
+  const config =
+    getConfig()[id]
+    ||
+    {};
+
+
+  const configuredSets =
+    parseInt(
+      config.sets,
+      10
+    );
+
+
+  const sets =
+    (
+      Number.isInteger(
+        configuredSets
+      )
+      &&
+      configuredSets >= 1
+      &&
+      configuredSets <= 20
+    )
+
+      ? configuredSets
+
+      : base[1];
+
+
+  const name =
+    (
+      typeof config.name === "string"
+      &&
+      config.name.trim()
+    )
+
+      ? config.name.trim()
+
+      : base[0];
+
+
+  const aliases = [
+
+    base[0],
+
+    ...(
+      Array.isArray(
+        config.aliases
+      )
+
+        ? config.aliases
+
+        : []
+    ),
+
+    config.name
+
+  ]
+  .filter(Boolean);
+
+
+  return {
+
+    id,
+
+    name,
+
+    sets,
+
+    reps:base[2],
+
+    tag:base[3],
+
+    baseName:base[0],
+
+    baseSets:base[1],
+
+    aliases:[
+      ...new Set(
+        aliases
+      )
+    ]
+
+  };
+
+}
+
+
+/* =========================
+   DRAFT
+========================= */
+
+function draftKey(){
+
+  return (
+    DRAFT_PREFIX
+    +
+    routine[
+      currentDay
+    ].name
+  );
+
+}
+
+
+function getDraft(){
+
+  try{
+
+    return JSON.parse(
+      localStorage.getItem(
+        draftKey()
+      )
+      ||
+      "null"
+    );
+
+  }
+  catch{
+
+    return null;
+
+  }
+
+}
+
+
+/* =========================
+   UTIL
+========================= */
+
+function escapeHTML(value){
+
+  return String(
+    value ?? ""
+  )
+
+  .replace(
+    /&/g,
+    "&amp;"
+  )
+
+  .replace(
+    /</g,
+    "&lt;"
+  )
+
+  .replace(
+    /"/g,
+    "&quot;"
+  );
+
+}
+
+
+function showValue(value){
+
+  if(
+    value === 0
+    ||
+    value === "0"
+  ){
+    return "0";
+  }
+
+  return value
+    ? value
+    : "-";
+
+}
+
+
+function formatSet(
+  set,
+  index
+){
+
+  return (
+    `${index + 1}세트 ` +
+    `${showValue(set.weight)}kg × ` +
+    `${showValue(set.reps)}회 · ` +
+    `RIR ${showValue(set.rir)}`
+  );
+
+}
+
+
+/* =========================
+   EXERCISE HISTORY
+========================= */
+
+function getExerciseHistory(
+  dayIndex,
+  exerciseIndex
+){
+
+  const exercise =
+    getExercise(
+      dayIndex,
+      exerciseIndex
+    );
+
+
+  return getHistory()
+
+    .filter(
+      session =>
+        session.day ===
+        routine[
+          dayIndex
+        ].name
+    )
+
+    .map(
+      session => {
+
+        const found =
+          (
+            session.exercises
+            ||
+            []
+          )
+
+          .find(
+            record =>
+              record.id ===
+              exercise.id
+
+              ||
+
+              exercise.aliases
+              .includes(
+                record.name
+              )
+          );
+
+
+        if(!found){
+          return null;
+        }
+
+
+        return {
+
+          date:
+            session.date,
+
+          sets:
+            found.sets
+            ||
+            []
+
+        };
+
+      }
+    )
+
+    .filter(Boolean);
+
+}
+
+
+function getLastExercise(
+  dayIndex,
+  exerciseIndex
+){
+
+  const records =
+    getExerciseHistory(
+      dayIndex,
+      exerciseIndex
+    );
+
+
+  if(
+    !records.length
+  ){
+    return null;
+  }
+
+
+  return records[
+    records.length - 1
+  ];
+
+}
+
+
+/* =========================
+   TABS
+========================= */
+
+function renderTabs(){
+
+  const tabs =
+    document.getElementById(
+      "tabs"
+    );
+
+
+  tabs.innerHTML = "";
+
+
+  routine.forEach(
+    (
+      day,
+      index
+    ) => {
+
+      const button =
+        document.createElement(
+          "button"
+        );
+
+
+      button.className =
+        "day-btn"
+        +
+        (
+          index === currentDay
+            ? " active"
+            : ""
+        );
+
+
+      button.innerText =
+        day.name;
+
+
+      button.onclick =
+        () => {
+
+          currentDay =
+            index;
+
+
+          localStorage.setItem(
+            CURRENT_DAY_KEY,
+            currentDay
+          );
+
+
+          render();
+
+
+          window.scrollTo({
+            top:0,
+            behavior:"smooth"
+          });
+
+        };
+
+
+      tabs.appendChild(
+        button
+      );
+
+    }
+  );
+
+}
+
+
+/* =========================
+   TAG
+========================= */
+
+function tagHTML(tag){
+
+  if(
+    tag === "MAIN"
+  ){
+
+    return `
+      <span class="tag main">
+        MAIN
+      </span>
+    `;
+
+  }
+
+
+  if(
+    tag === "PRE"
+  ){
+
+    return `
+      <span class="tag pre">
+        선행
+      </span>
+    `;
+
+  }
+
+
+  return "";
+
+}
+
+
+/* =========================
+   RENDER
+========================= */
+
+function render(){
+
+  renderTabs();
+
+
+  const day =
+    routine[
+      currentDay
+    ];
+
+
+  const draft =
+    getDraft();
+
+
+  document.getElementById(
+    "dayTitle"
+  ).innerText =
+    day.name;
+
+
+  document.getElementById(
+    "daySub"
+  ).innerText =
+    day.sub;
+
+
+  document.getElementById(
+    "dayNote"
+  ).innerText =
+    day.note;
+
+
+  const list =
+    document.getElementById(
+      "exerciseList"
+    );
+
+
+  list.innerHTML = "";
+
+
+  day.exercises.forEach(
+    (
+      baseExercise,
+      exerciseIndex
+    ) => {
+
+      const exercise =
+        getExercise(
+          currentDay,
+          exerciseIndex
+        );
+
+
+      const previous =
+        getLastExercise(
+          currentDay,
+          exerciseIndex
+        );
+
+
+      const card =
+        document.createElement(
+          "div"
+        );
+
+
+      card.className =
+        "exercise"
+        +
+        (
+          exercise.tag === "MAIN"
+            ? " main"
+            :
+          exercise.tag === "PRE"
+            ? " pre"
+            :
+            ""
+        );
+
+
+      let previousHTML =
+        `
+          <div class="previous">
+            지난 기록 없음
+          </div>
+        `;
+
+
+      if(
+        previous
+      ){
+
+        previousHTML =
+          `
+            <div class="previous">
+
+              <strong>
+                지난 기록 ·
+                ${previous.date}
+              </strong>
+
+              <br>
+
+              ${
+                previous.sets
+                .map(
+                  formatSet
+                )
+                .join(
+                  "<br>"
+                )
+              }
+
+            </div>
+          `;
+
+      }
+
+
+      let rows =
+        "";
+
+
+      for(
+        let setIndex = 0;
+        setIndex < exercise.sets;
+        setIndex++
+      ){
+
+        const saved =
+          draft
+          ?.exercises
+          ?.[exerciseIndex]
+          ?.sets
+          ?.[setIndex]
+          ||
+          {};
+
+
+        rows +=
+          `
+
+            <div class="set-row">
+
+              <div class="set-number">
+                ${setIndex + 1}
+              </div>
+
+
+              <input
+                id="weight-${exerciseIndex}-${setIndex}"
+                type="number"
+                step="0.5"
+                inputmode="decimal"
+                placeholder="kg"
+                value="${escapeHTML(saved.weight)}"
+              >
+
+
+              <input
+                id="reps-${exerciseIndex}-${setIndex}"
+                type="number"
+                step="1"
+                inputmode="numeric"
+                placeholder="회"
+                value="${escapeHTML(saved.reps)}"
+              >
+
+
+              <input
+                id="rir-${exerciseIndex}-${setIndex}"
+                type="number"
+                step="1"
+                inputmode="numeric"
+                placeholder="RIR"
+                value="${escapeHTML(saved.rir)}"
+              >
+
+            </div>
+
+          `;
+
+      }
+
+
+      card.innerHTML =
+        `
+
+          <div class="exercise-head">
+
+            <div class="exercise-title-area">
+
+              <div class="exercise-name">
+
+                ${exercise.name}
+
+                ${tagHTML(exercise.tag)}
+
+              </div>
+
+              <div class="exercise-meta">
+
+                ${exercise.sets}세트
+                ·
+                ${exercise.reps}회
+
+              </div>
+
+            </div>
+
+
+            <div class="head-buttons">
+
+              <button
+                class="mini-btn edit-btn"
+                onclick="openEdit(
+                  ${currentDay},
+                  ${exerciseIndex}
+                )">
+
+                편집
+
+              </button>
+
+
+              <button
+                class="mini-btn"
+                onclick="openExerciseHistory(
+                  ${currentDay},
+                  ${exerciseIndex}
+                )">
+
+                기록 보기
+
+              </button>
+
+            </div>
+
+          </div>
+
+
+          ${previousHTML}
+
+
+          ${
+            previous
+
+              ?
+
+            `
+
+              <button
+                class="copy-btn"
+                onclick="copyLast(
+                  ${exerciseIndex}
+                )">
+
+                지난 기록 불러오기
+
+              </button>
+
+            `
+
+              :
+
+            ""
+          }
+
+
+          <div class="headers">
+
+            <div></div>
+
+            <div>
+              KG
+            </div>
+
+            <div>
+              REPS
+            </div>
+
+            <div>
+              RIR
+            </div>
+
+          </div>
+
+
+          ${rows}
+
+        `;
+
+
+      list.appendChild(
+        card
+      );
+
+    }
+  );
+
+}
+
+
+/* =========================
+   COLLECT
+========================= */
+
+function collectWorkout(){
+
+  const day =
+    routine[
+      currentDay
+    ];
+
+
+  const exercises =
+    [];
+
+
+  day.exercises.forEach(
+    (
+      baseExercise,
+      exerciseIndex
+    ) => {
+
+      const exercise =
+        getExercise(
+          currentDay,
+          exerciseIndex
+        );
+
+
+      const sets =
+        [];
+
+
+      for(
+        let setIndex = 0;
+        setIndex < exercise.sets;
+        setIndex++
+      ){
+
+        sets.push({
+
+          weight:
+            document.getElementById(
+              `weight-${exerciseIndex}-${setIndex}`
+            ).value,
+
+          reps:
+            document.getElementById(
+              `reps-${exerciseIndex}-${setIndex}`
+            ).value,
+
+          rir:
+            document.getElementById(
+              `rir-${exerciseIndex}-${setIndex}`
+            ).value
+
+        });
+
+      }
+
+
+      exercises.push({
+
+        id:
+          exercise.id,
+
+        name:
+          exercise.name,
+
+        sets
+
+      });
+
+    }
+  );
+
+
+  return {
+
+    day:
+      day.name,
+
+    exercises
+
+  };
+
+}
+
+
+/* =========================
+   DRAFT SAVE
+========================= */
+
+function saveDraft(){
+
+  const data =
+    collectWorkout();
+
+
+  data.savedAt =
+    new Date()
+    .toLocaleString(
+      "ko-KR"
+    );
+
+
+  localStorage.setItem(
+    draftKey(),
+    JSON.stringify(data)
+  );
+
+
+  document.getElementById(
+    "status"
+  ).innerText =
+    "✓ 임시저장 완료";
+
+}
+
+
+/* =========================
+   COPY LAST
+========================= */
+
+function copyLast(
+  exerciseIndex
+){
+
+  const previous =
+    getLastExercise(
+      currentDay,
+      exerciseIndex
+    );
+
+
+  if(
+    !previous
+  ){
+    return;
+  }
+
+
+  previous.sets.forEach(
+    (
+      set,
+      index
+    ) => {
+
+      const weight =
+        document.getElementById(
+          `weight-${exerciseIndex}-${index}`
+        );
+
+
+      const reps =
+        document.getElementById(
+          `reps-${exerciseIndex}-${index}`
+        );
+
+
+      const rir =
+        document.getElementById(
+          `rir-${exerciseIndex}-${index}`
+        );
+
+
+      if(weight){
+        weight.value =
+          set.weight
+          ??
+          "";
+      }
+
+
+      if(reps){
+        reps.value =
+          set.reps
+          ??
+          "";
+      }
+
+
+      if(rir){
+        rir.value =
+          set.rir
+          ??
+          "";
+      }
+
+    }
+  );
+
+
+  saveDraft();
+
+}
+
+
+/* =========================
+   COMPLETE
+========================= */
+
+function completeWorkout(){
+
+  const workout =
+    collectWorkout();
+
+
+  const hasData =
+    workout.exercises.some(
+      exercise =>
+        exercise.sets.some(
+          set =>
+            set.weight !== ""
+            ||
+            set.reps !== ""
+            ||
+            set.rir !== ""
+        )
+    );
+
+
+  if(
+    !hasData
+    &&
+    !confirm(
+      "입력된 기록이 없습니다. 그래도 완료할까요?"
+    )
+  ){
+    return;
+  }
+
+
+  const now =
+    Date.now();
+
+
+  workout.ts =
+    now;
+
+
+  workout.id =
+    workout.day
+    +
+    "-"
+    +
+    now;
+
+
+  workout.date =
+    new Date(
+      now
+    )
+    .toLocaleString(
+      "ko-KR"
+    );
+
+
+  const history =
+    getHistory();
+
+
+  history.push(
+    workout
+  );
+
+
+  setHistory(
+    history
+  );
+
+
+  localStorage.removeItem(
+    draftKey()
+  );
+
+
+  currentDay =
+    (
+      currentDay + 1
+    )
+    %
+    routine.length;
+
+
+  localStorage.setItem(
+    CURRENT_DAY_KEY,
+    currentDay
+  );
+
+
+  document.getElementById(
+    "status"
+  ).innerText =
+    "✓ 운동 완료 · 다음 DAY";
+
+
+  render();
+
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+}
+
+
+/* =========================
+   EDIT OPEN
+========================= */
+
+function openEdit(
+  dayIndex,
+  exerciseIndex
+){
+
+  try{
+
+    saveDraft();
+
+  }
+  catch{}
+
+
+  editing = {
+
+    dayIndex,
+
+    exerciseIndex
+
+  };
+
+
+  const exercise =
+    getExercise(
+      dayIndex,
+      exerciseIndex
+    );
+
+
+  document.getElementById(
+    "editName"
+  ).value =
+    exercise.name;
+
+
+  document.getElementById(
+    "editSets"
+  ).value =
+    exercise.sets;
+
+
+  document.getElementById(
+    "editModal"
+  ).classList.add(
+    "show"
+  );
+
+}
+
+
+/* =========================
+   EDIT CLOSE
+========================= */
+
+function closeEdit(){
+
+  document.getElementById(
+    "editModal"
+  ).classList.remove(
+    "show"
+  );
+
+
+  editing =
+    null;
+
+}
+
+
+function editBackground(
+  event
+){
+
+  if(
+    event.target.id ===
+    "editModal"
+  ){
+
+    closeEdit();
+
+  }
+
+}
+
+
+/* =========================
+   SAVE EDIT
+========================= */
+
+function saveExerciseEdit(){
+
+  if(
+    !editing
+  ){
+    return;
+  }
+
+
+  const {
+    dayIndex,
+    exerciseIndex
+  } =
+    editing;
+
+
+  const exercise =
+    getExercise(
+      dayIndex,
+      exerciseIndex
+    );
+
+
+  const newName =
+    document.getElementById(
+      "editName"
+    ).value.trim();
+
+
+  const newSets =
+    parseInt(
+      document.getElementById(
+        "editSets"
+      ).value,
+      10
+    );
+
+
+  if(
+    !newName
+  ){
+
+    alert(
+      "운동 이름을 입력하세요."
+    );
+
+    return;
+  }
+
+
+  if(
+    !Number.isInteger(newSets)
+    ||
+    newSets < 1
+    ||
+    newSets > 20
+  ){
+
+    alert(
+      "세트 수는 1~20 사이로 입력하세요."
+    );
+
+    return;
+  }
+
+
+  const config =
+    getConfig();
+
+
+  const oldConfig =
+    config[
+      exercise.id
+    ]
+    ||
+    {};
+
+
+  const aliases = [
+
+    ...(
+      Array.isArray(
+        oldConfig.aliases
+      )
+
+        ? oldConfig.aliases
+
+        : []
+    ),
+
+    exercise.name,
+
+    exercise.baseName
+
+  ];
+
+
+  config[
+    exercise.id
+  ] = {
+
+    name:
+      newName,
+
+    sets:
+      newSets,
+
+    aliases:[
+      ...new Set(
+        aliases
+      )
+    ]
+
+  };
+
+
+  setConfig(
+    config
+  );
+
+
+  closeEdit();
+
+
+  render();
+
+
+  document.getElementById(
+    "status"
+  ).innerText =
+    `✓ ${newName} · ${newSets}세트로 변경`;
+
+}
+
+
+/* =========================
+   RESET EDIT
+========================= */
+
+function resetExercise(){
+
+  if(
+    !editing
+  ){
+    return;
+  }
+
+
+  const id =
+    exerciseId(
+      editing.dayIndex,
+      editing.exerciseIndex
+    );
+
+
+  const config =
+    getConfig();
+
+
+  delete config[id];
+
+
+  setConfig(
+    config
+  );
+
+
+  closeEdit();
+
+
+  render();
+
+
+  document.getElementById(
+    "status"
+  ).innerText =
+    "✓ 기본값으로 복원";
+
+}
+
+
+/* =========================
+   EXERCISE HISTORY MODAL
+========================= */
+
+function openExerciseHistory(
+  dayIndex,
+  exerciseIndex
+){
+
+  const exercise =
+    getExercise(
+      dayIndex,
+      exerciseIndex
+    );
+
+
+  const records =
+    getExerciseHistory(
+      dayIndex,
+      exerciseIndex
+    )
+    .slice()
+    .reverse();
+
+
+  document.getElementById(
+    "historyTitle"
+  ).innerText =
+    exercise.name;
+
+
+  const content =
+    document.getElementById(
+      "historyContent"
+    );
+
+
+  if(
+    !records.length
+  ){
+
+    content.innerHTML =
+      `
+
+        <div class="history-row">
+
+          기록 없음
+
+        </div>
+
+      `;
+
+  }
+  else{
+
+    content.innerHTML =
+      records
+      .map(
+        record => `
+
+          <div class="history-row">
+
+            <div class="history-date">
+
+              ${record.date}
+
+            </div>
+
+
+            <div class="history-sets">
+
+              ${
+                record.sets
+                .map(
+                  formatSet
+                )
+                .join(
+                  "<br>"
+                )
+              }
+
+            </div>
+
+          </div>
+
+        `
+      )
+      .join("");
+
+  }
+
+
+  document.getElementById(
+    "historyModal"
+  ).classList.add(
+    "show"
+  );
+
+}
+
+
+/* =========================
+   ALL HISTORY
+========================= */
+
+function openAllHistory(){
+
+  const history =
+    getHistory()
+    .slice()
+    .reverse();
+
+
+  document.getElementById(
+    "historyTitle"
+  ).innerText =
+    "전체 운동 기록";
+
+
+  const content =
+    document.getElementById(
+      "historyContent"
+    );
+
+
+  if(
+    !history.length
+  ){
+
+    content.innerHTML =
+      `
+
+        <div class="history-row">
+
+          기록 없음
+
+        </div>
+
+      `;
+
+  }
+  else{
+
+    content.innerHTML =
+      history
+      .map(
+        session => {
+
+          const exerciseHTML =
+            (
+              session.exercises
+              ||
+              []
+            )
+
+            .map(
+              exercise => {
+
+                const entered =
+                  (
+                    exercise.sets
+                    ||
+                    []
+                  )
+
+                  .filter(
+                    set =>
+                      set.weight !== ""
+                      ||
+                      set.reps !== ""
+                      ||
+                      set.rir !== ""
+                  );
+
+
+                if(
+                  !entered.length
+                ){
+                  return "";
+                }
+
+
+                return `
+
+                  <b>
+                    ${exercise.name}
+                  </b>
+
+                  <br>
+
+                  ${
+                    entered
+                    .map(
+                      formatSet
+                    )
+                    .join(
+                      "<br>"
+                    )
+                  }
+
+                `;
+
+              }
+            )
+
+            .filter(Boolean)
+
+            .join(
+              "<br><br>"
+            );
+
+
+          return `
+
+            <div class="history-row">
+
+              <div class="history-date">
+
+                ${session.date}
+
+              </div>
+
+
+              <div class="history-day">
+
+                ${session.day}
+
+              </div>
+
+
+              <div class="history-sets">
+
+                ${exerciseHTML}
+
+              </div>
+
+            </div>
+
+          `;
+
+        }
+      )
+
+      .join("");
+
+  }
+
+
+  document.getElementById(
+    "historyModal"
+  ).classList.add(
+    "show"
+  );
+
+}
+
+
+/* =========================
+   HISTORY CLOSE
+========================= */
+
+function closeHistory(){
+
+  document.getElementById(
+    "historyModal"
+  ).classList.remove(
+    "show"
+  );
+
+}
+
+
+function historyBackground(
+  event
+){
+
+  if(
+    event.target.id ===
+    "historyModal"
+  ){
+
+    closeHistory();
+
+  }
+
+}
+
+
+/* =========================
+   BACKUP
+========================= */
+
+function exportData(){
+
+  const data = {
+
+    version:
+      "rolling5-v1",
+
+    currentDay5:
+      currentDay,
+
+    workoutHistory5:
+      getHistory(),
+
+    routineConfig5:
+      getConfig(),
+
+    exportedAt:
+      new Date()
+      .toISOString()
+
+  };
+
+
+  const json =
+    JSON.stringify(
+      data,
+      null,
+      2
+    );
+
+
+  const blob =
+    new Blob(
+      [json],
+      {
+        type:
+          "application/json"
+      }
+    );
+
+
+  const file =
+    new File(
+      [blob],
+      "workout-backup.json",
+      {
+        type:
+          "application/json"
+      }
+    );
+
+
+  if(
+    navigator.share
+    &&
+    navigator.canShare
+    &&
+    navigator.canShare({
+      files:[file]
+    })
+  ){
+
+    navigator.share({
+
+      title:
+        "Workout Backup",
+
+      files:[
+        file
+      ]
+
+    })
+    .catch(
+      () => {}
+    );
+
+  }
+  else{
+
+    const url =
+      URL.createObjectURL(
+        blob
+      );
+
+
+    const link =
+      document.createElement(
+        "a"
+      );
+
+
+    link.href =
+      url;
+
+
+    link.download =
+      "workout-backup.json";
+
+
+    link.click();
+
+
+    setTimeout(
+      () =>
+        URL.revokeObjectURL(
+          url
+        ),
+      1000
+    );
+
+  }
+
+}
+
+
+/* =========================
+   RESTORE
+========================= */
+
+function restoreData(
+  event
+){
+
+  const file =
+    event.target.files
+    ?.[0];
+
+
+  if(
+    !file
+  ){
+    return;
+  }
+
+
+  const reader =
+    new FileReader();
+
+
+  reader.onload =
+    () => {
+
+      try{
+
+        const data =
+          JSON.parse(
+            reader.result
+          );
+
+
+        if(
+          Array.isArray(
+            data.workoutHistory5
+          )
+        ){
+
+          setHistory(
+            data.workoutHistory5
+          );
+
+        }
+
+
+        if(
+          data.routineConfig5
+          &&
+          typeof data.routineConfig5 === "object"
+        ){
+
+          setConfig(
+            data.routineConfig5
+          );
+
+        }
+
+
+        if(
+          Number.isInteger(
+            data.currentDay5
+          )
+        ){
+
+          currentDay =
+            Math.max(
+              0,
+              Math.min(
+                routine.length - 1,
+                data.currentDay5
+              )
+            );
+
+
+          localStorage.setItem(
+            CURRENT_DAY_KEY,
+            currentDay
+          );
+
+        }
+
+
+        render();
+
+
+        document.getElementById(
+          "status"
+        ).innerText =
+          "✓ 백업 복원 완료";
+
+      }
+      catch{
+
+        alert(
+          "백업 파일을 읽을 수 없습니다."
+        );
+
+      }
+
+
+      event.target.value =
+        "";
+
+    };
+
+
+  reader.readAsText(
+    file
+  );
+
+}
+
+
+/* =========================
+   START
+========================= */
+
+render();
+
+</script>
+
+</body>
+</html>
